@@ -47,12 +47,12 @@ namespace certi {
       SN = msgBuffer.read_uint64();
    }
 
-   std::ostream& EventRetraction::show(std::ostream& out) {
+   void EventRetraction::show(std::ostream& out) {
       out << "[EventRetraction -Begin]" << std::endl;      //Specific show code
       out << " sendingFederate = " << sendingFederate << " "       << std::endl;
       out << " SN = " << SN << " "       << std::endl;
       out << "[EventRetraction -End]" << std::endl;
-      return out;
+      return;
    }
 
    M_Open_Connexion::M_Open_Connexion() {
@@ -1044,8 +1044,9 @@ namespace certi {
          out << "         //FIXME FIXME don't know how to serialize native field <values> of type <AttributeValue_t>";
       }
       out << std::endl;
-      out << "(opt) eventRetraction =" << eventRetraction.show(out)      << std::endl;
-      out << "[M_Update_Attribute_Values -End]" << std::endl;
+      out << "(opt) eventRetraction =";
+      eventRetraction.show(out);
+      out << std::endl << "[M_Update_Attribute_Values -End]" << std::endl;
       return out;
    }
 
@@ -1095,8 +1096,9 @@ namespace certi {
       out << " objectClass = " << objectClass << " "       << std::endl;
       out << " object = " << object << " "       << std::endl;
       out << " objectName = " << objectName << " "       << std::endl;
-      out << "(opt) eventRetraction =" << eventRetraction.show(out)      << std::endl;
-      out << "[M_Discover_Object_Instance -End]" << std::endl;
+      out << "(opt) eventRetraction =";
+      eventRetraction.show(out);
+      out << std::endl << "[M_Discover_Object_Instance -End]" << std::endl;
       return out;
    }
 
@@ -1178,8 +1180,9 @@ namespace certi {
          out << "         //FIXME FIXME don't know how to serialize native field <values> of type <AttributeValue_t>";
       }
       out << std::endl;
-      out << "(opt) eventRetraction =" << eventRetraction.show(out)      << std::endl;
-      out << "[M_Reflect_Attribute_Values -End]" << std::endl;
+      out << "(opt) eventRetraction ="; 
+      eventRetraction.show(out);
+      out << std::endl << "[M_Reflect_Attribute_Values -End]" << std::endl;
       return out;
    }
 
@@ -1261,8 +1264,9 @@ namespace certi {
       }
       out << std::endl;
       out << " region = " << region << " "       << std::endl;
-      out << "(opt) eventRetraction =" << eventRetraction.show(out)      << std::endl;
-      out << "[M_Send_Interaction -End]" << std::endl;
+      out << "(opt) eventRetraction =";
+      eventRetraction.show(out);
+      out << std::endl << "[M_Send_Interaction -End]" << std::endl;
       return out;
    }
 
@@ -1344,8 +1348,9 @@ namespace certi {
       }
       out << std::endl;
       out << " region = " << region << " "       << std::endl;
-      out << "(opt) eventRetraction =" << eventRetraction.show(out)      << std::endl;
-      out << "[M_Receive_Interaction -End]" << std::endl;
+      out << "(opt) eventRetraction =";
+      eventRetraction.show(out);
+      out << std::endl << "[M_Receive_Interaction -End]" << std::endl;
       return out;
    }
 
@@ -1395,8 +1400,9 @@ namespace certi {
       out << " objectClass = " << objectClass << " "       << std::endl;
       out << " object = " << object << " "       << std::endl;
       out << " objectName = " << objectName << " "       << std::endl;
-      out << "(opt) eventRetraction =" << eventRetraction.show(out)      << std::endl;
-      out << "[M_Delete_Object_Instance -End]" << std::endl;
+      out << "(opt) eventRetraction =";
+      eventRetraction.show(out);
+      out << std::endl << "[M_Delete_Object_Instance -End]" << std::endl;
       return out;
    }
 
@@ -1478,8 +1484,9 @@ namespace certi {
       out << " objectClass = " << objectClass << " "       << std::endl;
       out << " object = " << object << " "       << std::endl;
       out << " objectName = " << objectName << " "       << std::endl;
-      out << "(opt) eventRetraction =" << eventRetraction.show(out)      << std::endl;
-      out << "[M_Remove_Object_Instance -End]" << std::endl;
+      out << "(opt) eventRetraction =";
+      eventRetraction.show(out);
+      out << std::endl << "[M_Remove_Object_Instance -End]" << std::endl;
       return out;
    }
 
@@ -3046,8 +3053,9 @@ namespace certi {
       out << "[M_Retract -Begin]" << std::endl;      //Call mother class
       Super::show(out);
       //Specific show code
-      out << " eventRetraction = " << eventRetraction.show(out)      << std::endl;
-      out << "[M_Retract -End]" << std::endl;
+      out << " eventRetraction = ";
+      eventRetraction.show(out);
+      out << std::endl << "[M_Retract -End]" << std::endl;
       return out;
    }
 

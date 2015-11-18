@@ -210,7 +210,7 @@ namespace certi {
          void setParameters(const NM_FOM_Parameter& newParameters, uint32_t rank) {parameters[rank]=newParameters;}
          void removeParameters(uint32_t rank) {parameters.erase(parameters.begin() + rank);}
          // the show method
-         std::ostream& show(std::ostream& out);
+         void show(std::ostream& out);
       protected:
          InteractionClassHandle interactionClass;
          std::string name;

@@ -71,7 +71,7 @@ namespace certi {
          const uint64_t& getSN() const {return SN;}
          void setSN(const uint64_t& newSN) {SN=newSN;}
          // the show method
-         std::ostream& show(std::ostream& out);
+         void show(std::ostream& out);
       protected:
          FederateHandle sendingFederate;
          uint64_t SN;

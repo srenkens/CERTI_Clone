@@ -92,7 +92,7 @@ namespace certi {
       out << " name = " << name << " "       << std::endl;
       out << "    dimensions [] =" << std::endl;
       for (uint32_t i = 0; i < getDimensionsSize(); ++i) {
-         out << dimensions[i].show(out);
+         dimensions[i].show(out);
       }
       out << std::endl;
       out << "[NM_FOM_Routing_Space -End]" << std::endl;
@@ -180,7 +180,7 @@ namespace certi {
       out << " name = " << name << " "       << std::endl;
       out << "    attributes [] =" << std::endl;
       for (uint32_t i = 0; i < getAttributesSize(); ++i) {
-         out << attributes[i].show(out);
+         attributes[i].show(out);
       }
       out << std::endl;
       out << "[NM_FOM_Object_Class -End]" << std::endl;
@@ -258,7 +258,7 @@ namespace certi {
       }
    }
 
-   std::ostream& NM_FOM_Interaction_Class::show(std::ostream& out) {
+   void NM_FOM_Interaction_Class::show(std::ostream& out) {
       out << "[NM_FOM_Interaction_Class -Begin]" << std::endl;      //Specific show code
       out << " interactionClass = " << interactionClass << " "       << std::endl;
       out << " name = " << name << " "       << std::endl;
@@ -268,11 +268,11 @@ namespace certi {
       out << " transport = " << transport << " "       << std::endl;
       out << "    parameters [] =" << std::endl;
       for (uint32_t i = 0; i < getParametersSize(); ++i) {
-         out << parameters[i].show(out);
+         parameters[i].show(out);
       }
       out << std::endl;
       out << "[NM_FOM_Interaction_Class -End]" << std::endl;
-      return out;
+      return;
    }
 
    NM_Close_Connexion::NM_Close_Connexion() {
@@ -442,17 +442,17 @@ namespace certi {
       out << " federateName = " << federateName << " "       << std::endl;
       out << "    routingSpaces [] =" << std::endl;
       for (uint32_t i = 0; i < getRoutingSpacesSize(); ++i) {
-         out << routingSpaces[i].show(out);
+         routingSpaces[i].show(out);
       }
       out << std::endl;
       out << "    objectClasses [] =" << std::endl;
       for (uint32_t i = 0; i < getObjectClassesSize(); ++i) {
-         out << objectClasses[i].show(out);
+         objectClasses[i].show(out);
       }
       out << std::endl;
       out << "    interactionClasses [] =" << std::endl;
       for (uint32_t i = 0; i < getInteractionClassesSize(); ++i) {
-         out << interactionClasses[i].show(out);
+         interactionClasses[i].show(out);
       }
       out << std::endl;
       out << "[NM_Join_Federation_Execution -End]" << std::endl;
