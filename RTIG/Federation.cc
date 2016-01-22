@@ -191,7 +191,7 @@ throw (CouldNotOpenFED, ErrorReadingFED, MemoryExhausted, SecurityError,
         /* add paths from CERTI_FOM_PATH */
         if (NULL!=getenv("CERTI_FOM_PATH")) {
             string path = getenv("CERTI_FOM_PATH");
-            vector<string> certi_fom_paths = split(path, ':');
+            vector<string> certi_fom_paths = split(path, ';');
             fom_paths.insert(fom_paths.end(),certi_fom_paths.begin(),certi_fom_paths.end());
         }
 
