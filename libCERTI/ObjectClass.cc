@@ -109,18 +109,23 @@ ObjectClass::broadcastClassMessage(ObjectClassBroadcastList *ocbList,
 
     G.Out(pdGendoc,"      ObjectClass::broadcastClassMessage handle=%d",handle);
     // 2. Update message attribute list by removing child's attributes.
-    if ((ocbList->getMsg()->getMessageType() == NetworkMessage::REFLECT_ATTRIBUTE_VALUES) ||
-        (ocbList->getMsg()->getMessageType() == NetworkMessage::REQUEST_ATTRIBUTE_OWNERSHIP_ASSUMPTION)) {
-        for (uint32_t attr = 0; attr < (ocbList->getMsgRAV()->getAttributesSize());) {
-            // If the attribute is not in that class, remove it from the message.
-            if (hasAttribute(ocbList->getMsgRAV()->getAttributes(attr))) {
+    if (ocbList->getMsg()->getMessageType() == NetworkMessage::REFLECT_ATTRIBUTE_VALUES) 
+        for (uint32_t attr = 0; attr < (ocbList->getMsgRAV()->getAttributesSize());) 
+            if (hasAttribute(ocbList->getMsgRAV()->getAttributes(attr))) // If the attribute is not in that class, remove it from the message.
                 ++attr;
-            }
-            else {
+            else 
                 ocbList->getMsgRAV()->removeAttributes(attr);
-            }
-        }
-    }
+
+
+    if (ocbList->getMsg()->getMessageType() == NetworkMessage::REQUEST_ATTRIBUTE_OWNERSHIP_ASSUMPTION) 
+        for (uint32_t attr = 0; attr < (ocbList->getMsgRAOA()->getAttributesSize());)
+            if (hasAttribute(ocbList->getMsgRAOA()->getAttributes(attr))) // If the attribute is not in that class, remove it from the message.
+                ++attr;
+            else
+                ocbList->getMsgRAOA()->removeAttributes(attr);
+
+
+
     // 3. Add class/attributes subscribers to the list.
     switch(ocbList->getMsg()->getMessageType()) {
       case NetworkMessage::DISCOVER_OBJECT:
@@ -668,7 +673,7 @@ ObjectClass::registerObjectInstance(FederateHandle the_federate,
 				 i->second);
 
         // privilegeToDelete is owned by federate even not published.
-        if (i->second->isNamed("privilegeToDelete")) {
+        if (i->second->isNamed("HLAprivilegeToDeleteObject")) {
             oa->setOwner(the_federate);
         }
 
@@ -1012,14 +1017,21 @@ negotiatedAttributeOwnershipDivestiture(FederateHandle theFederateHandle,
                 ++compteur_acquisition;
                 diffusionAcquisition.push_back(DiffusionPair(NewOwner,oa->getHandle()));
 
+                if(AnswerDivestiture.getAttributesSize() <= compteur_divestiture) //Not the cleanest way of making sure that the AttributesSize is ok but better then not doing it I suppose
+                    AnswerDivestiture.setAttributesSize(compteur_divestiture + 1); 
+
                 AnswerDivestiture.setAttributes(theAttributeList[i],compteur_divestiture);
                 compteur_divestiture++ ;
                 /* FIXME not sure that this should be done */
-                if (oca->isNamed("privilegeToDelete")) {
+                if (oca->isNamed("HLAprivilegeToDeleteObject")) {
                     object->setOwner(NewOwner);
                 }
             }
-            else {
+            else 
+            {
+                if(AnswerAssumption->getAttributesSize() <= compteur_assumption) //Not the cleanest way of making sure that the AttributesSize is ok but better then not doing it I suppose
+                    AnswerAssumption->setAttributesSize(compteur_assumption + 1); 
+
                 AnswerAssumption->setAttributes(theAttributeList[i],compteur_assumption) ;
                 oa->setDivesting(true);
                 compteur_assumption++ ;
@@ -1107,7 +1119,7 @@ attributeOwnershipAcquisitionIfAvailable(FederateHandle the_federate,
             // The federate has to publish attributes he desire to
             // acquire.
             if (!oca->isPublishing(the_federate) &&
-                (!oca->isNamed("privilegeToDelete")))
+                (!oca->isNamed("HLAprivilegeToDeleteObject")))
                 throw AttributeNotPublished("");
             // Does federate already owns some attributes.
             if (oa->getOwner() == the_federate)
@@ -1161,7 +1173,7 @@ attributeOwnershipAcquisitionIfAvailable(FederateHandle the_federate,
                 compteur_notification++ ;
                 //object->Owner reste le champ de reference
                 //pour le privilegeToDelete
-                if (oca->isNamed("privilegeToDelete"))
+                if (oca->isNamed("HLAprivilegeToDeleteObject"))
                     object->setOwner(the_federate);
             }
             else {
@@ -1264,7 +1276,7 @@ unconditionalAttributeOwnershipDivestiture(FederateHandle theFederateHandle,
 
                 diffusionAcquisition.push_back(DiffusionPair(NewOwner,oa->getHandle())) ;
 
-                if (oca->isNamed("privilegeToDelete")) {
+                if (oca->isNamed("HLAprivilegeToDeleteObject")) {
                     object->setOwner(NewOwner);
                 }
             }
@@ -1340,7 +1352,7 @@ ObjectClass::attributeOwnershipAcquisition(FederateHandle theFederateHandle,
         if ( oa->getOwner() == theFederateHandle )
             throw FederateOwnsAttributes("");
         // Does federate publish the attribute?
-        if ( !(oca->isPublishing(theFederateHandle) || oca->isNamed("privilegeToDelete")) )
+        if ( !(oca->isPublishing(theFederateHandle) || oca->isNamed("HLAprivilegeToDeleteObject")) )
             throw AttributeNotPublished("");
     }
     
@@ -1388,7 +1400,7 @@ ObjectClass::attributeOwnershipAcquisition(FederateHandle theFederateHandle,
 
                 // object->Owner reste le champ de reference pour
                 // le privilegeToDelete
-                if (oca->isNamed("privilegeToDelete"))
+                if (oca->isNamed("HLAprivilegeToDeleteObject"))
                     object->setOwner(theFederateHandle);
             }
             else {
@@ -1488,7 +1500,7 @@ attributeOwnershipReleaseResponse(FederateHandle the_federate,
             D.Out(pdDebug, "Acquisition handle %u compteur %u",
                   the_attributes[i], compteur_acquisition);
 
-            if (oca->isNamed("privilegeToDelete"))
+            if (oca->isNamed("HLAprivilegeToDeleteObject"))
                 object->setOwner(newOwner);
         }
 
