@@ -132,20 +132,19 @@ Object * ObjectSet::registerObjectInstance(FederateHandle the_federate, 				  Ob
     if (OFromHandle.find(the_object) != OFromHandle.end()) 
         throw ObjectAlreadyRegistered("Object already in ObjectSet map.");
 
-    if(OFromName.find(the_name) != OFromName.end())
+    string FilledName = the_name.size() > 0 ? the_name : (stringize() << "HLAobject_" << the_object);
+    
+    if(OFromName.find(FilledName) != OFromName.end())
         throw ObjectAlreadyRegistered("Object name already defined.");
 
     Object *object = new Object(the_federate);
     object->setHandle(the_object);
     object->setClass(the_class);
 
-    if (the_name.size() > 0) 
-        object->setName(the_name);
-    else 
-        object->setName(stringize() << "HLAobject_" << the_object);
+    object->setName(FilledName);
 
     OFromHandle[the_object] = object;
-    OFromName[the_name] = object;
+    OFromName[FilledName] = object;
 
     return object ;
 }
