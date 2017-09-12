@@ -324,9 +324,7 @@ Communications::searchMessage(NetworkMessage::Type type_msg,
             if (((*i)->getFederate() == numeroFedere) || (numeroFedere == 0)) {
             	*msg = *i;                                
                 waitingList.erase(i);
-                D.Out(pdProtocol,
-                      "Message of Type %d was already here.",
-                      type_msg);
+                D.Out(pdProtocol,  "Message of Type %d was already here.", type_msg);
                 return true ;
             }
         }
