@@ -67,7 +67,7 @@ Docker
 ------
 A Dockerfile has been added to the project in order to automate the building.
 
-1) Build: This creates a Docker image tagged as certi/certi. In the /certi/build folder
+1) Build: This creates a Docker image tagged as certi/certi.
    docker build --tag certi/certi .
 
 2) Create container
