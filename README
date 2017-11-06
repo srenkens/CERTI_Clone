@@ -53,7 +53,7 @@ The fast (and hopefully easy) way to build CERTI is:
    
 6) Install 
    make install
-   
+
 The command used for building and installing CERTI depends
 on the platform/compiler combination you chose. The previous
 examples are for Unix-like system with make.
@@ -62,3 +62,32 @@ You may look at
    for other build examples.
    or generic CMake usage:
    http://www.cmake.org/cmake/help/runningcmake.html
+
+Docker
+------
+A Dockerfile has been added to the project in order to automate the building.
+
+1) Build: This creates a Docker image tagged as certi/certi.
+   docker build --tag certi/certi .
+
+2) Create container
+   docker create --name certi certi/certi
+
+3) Get the packaged artifacts
+   docker cp certi:/certi/build/CERTI-3.5.1-Linux-Ubuntu_16.04-x86_64.deb .
+   docker cp certi:/certi/build/CERTI-3.5.1-Linux-Ubuntu_16.04-x86_64.rpm .
+   docker cp certi:/certi/build/CERTI-3.5.1-Linux-Ubuntu_16.04-x86_64.tar.gz .
+
+The image has been prepared to actually run the binaries created by the build, however this has NOT been tested.
+
+1) Build: This creates a Docker image tagged as certi/certi. In the /certi/build folder
+   docker build --tag certi/certi .
+
+2) Run
+   docker run --name certi certi/certi rtig
+
+Please note that the image does not expose any ports. These should be added to the Dockerfile and the run command.
+See:
+  - https://docs.docker.com/engine/reference/builder/#expose
+  - https://docs.docker.com/engine/reference/commandline/run/#publish-or-expose-port--p-expose 
+
